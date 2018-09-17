@@ -7,52 +7,9 @@
 #' @examples
 #' pairs2
 
-## setting up functions for pairs plot
-
-panel.cor <- function(x, y, digits=2, prefix="", cex.cor) 
-{
-    usr <- par("usr"); on.exit(par(usr)) 
-    par(usr = c(0, 1, 0, 1)) 
-    r <- abs(cor(x, y)) 
-    txt <- format(c(r, 0.123456789), digits=digits)[1] 
-    txt <- paste(prefix, txt, sep="") 
-    if(missing(cex.cor)) cex <- 0.8/strwidth(txt) 
- 
-    test <- cor.test(x,y) 
-    # # borrowed from printCoefmat
-    # Signif <- symnum(test$p.value, corr = FALSE, na = FALSE, 
-    #               cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1),
-    #               symbols = c("***", "**", "*", ".", " ")) 
- 
-    text(0.5, 0.5, txt, cex = cex * r) 
-    # text(.8, .8, Signif, cex=cex, col=2) 
-}
-
-
-panel.hist <- function(x, ...)
-{
-    usr <- par("usr"); on.exit(par(usr))
-    par(usr = c(usr[1:2], 0, 1.5) )
-    h <- hist(x, plot = FALSE)
-    breaks <- h$breaks; nB <- length(breaks)
-    y <- h$counts; y <- y/max(y)
-    rect(breaks[-nB], 0, breaks[-1], y, col = "grey", ...)
-}
-
-
-panel.smooth2<-function (x, y, col = par("col"), bg = alpha('grey',0.5), pch = 21, 
-    cex = 1,  span = 2/3, iter = 3, ...) 
-{
-    points(x, y, pch = pch, col = col, bg = bg, cex = cex)
-    ok <- is.finite(x) & is.finite(y)
-    if(abs(cor(x,y))>0.5) {col.smooth='red'} else {col.smooth='black'}
-        lines(stats::lowess(x[ok], y[ok], f = span, iter = iter), 
-            col = col.smooth, lwd=1.5, ...)
-    }
- 
 pairs2 <-  function (x, labels, panel = points, ..., lower.panel = panel.smooth2, 
             upper.panel = panel.cor, diag.panel = panel.hist, text.panel = textPanel, 
-            label.pos = 0.5 + has.diag/3, cex.labels = NULL, font.labels = 1,
+            label.pos = 0.5 + has.diag/3, cex.labels = NULL, font.labels = 2,
             row1attop = TRUE, gap = 1) 
   {
     textPanel <- function(x = 0.5, y = 0.5, txt, cex, font) text(x, 
