@@ -6,6 +6,8 @@ install_github('jpwrobinson/funk')
 library(funk)
 ```
 
+**Documentation needs improving and will be done soon!**
+
 Functions included are:
 
 **Data cleaning**
