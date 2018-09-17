@@ -1,6 +1,15 @@
-#!bin/env Rscript
-
-## Generic function to scale numeric and categorical variables for multi-model approaches
+#' Scaling and centering explanatory covariates
+#'
+#' function to scale numeric and categorical variables for multi-model approaches
+#' @param df = dataset containing all response, explanatory, and grouping factors 
+#' @param ID = names of grouping variables that should not be scaled; provide as c("Var1", "Var2")
+#' @param centered = should the function center the mean at 0? (defaults to TRUE)
+#' @param scaled = should the function scale each variable by its standard deviation? (defaults to TRUE)
+#' @param family = GLM family distribution, takes 'gaussian' or 'Gamma'
+#' @keywords multimodel, demean, scale
+#' @export
+#' @examples
+#' scaler
 
 ## Function definitions
 scaler<-function(df, ID, centered=TRUE, scaled=TRUE,...){

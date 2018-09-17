@@ -1,3 +1,19 @@
+#' Fit jacknife GAM analysis.
+#'
+#' This function runs a drop-one jacknife to estimate relative variable importance.
+#' @param dataset is a data frame of response and explanatory covariates
+#' @param exp.names is a vector of explanatory covariate names, matching colnames of dataset
+#' @param indicator is the name of the focal response variable
+#' @param family specifies the fitted distribution (e.g. 'gaussian', 'poisson', 'binomial')
+#' @param base_k is the number of knots for each smoother term. Defaults to -1, where mgcv uses generalized cross-validation
+#' @param smoother is the spline basis, defaults to 'cr'
+#' @param n.param.max is the maximum number of fitted explanatory covariates, defaults to 3
+#' @keywords gam
+#' @export
+#' @examples
+#' gam.jacknife
+
+
 
 gam.jacknife<-function(dataset, exp.names, indicator, family, base_k=-1, smoother='cr',n.param.max=3){
 

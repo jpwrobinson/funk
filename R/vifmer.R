@@ -1,9 +1,13 @@
-
-### variance inflation factors for lme4 package
-## https://github.com/aufrank/R-hacks/blob/master/mer-utils.R
+#' Multimodel averaging with t-values
+#'
+#' variance inflation factors for lme4 package: https://github.com/aufrank/R-hacks/blob/master/mer-utils.R. Adapted from rms::vif
+#' @param fit = fitted model
+#' @keywords
+#' @export
+#' @examples
+#' vif.mer
 
 vif.mer <- function (fit) {
-    ## adapted from rms::vif
     
     v <- vcov(fit)
     nam <- names(fixef(fit))

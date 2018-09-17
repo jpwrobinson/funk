@@ -1,10 +1,19 @@
-## Function builds GAM and calculates deviance explained by each covariate. 
+#' Variable importance for GAMs
+#'
+#' Function builds GAM and calculates deviance explained by each covariate. 
+#' Simon Wood; http://r.789695.n4.nabble.com/variance-explained-by-each-term-in-a-GAM-td836513.html
+#' Litzow et al. (2013) Reassessing regime shifts in the North Pacific: incremental climate change and commercial fishing are necessary for explaining decadal-scale biological variability. Global Change Biology.
+#' @param  dataset is the dataset containing y and all x covariates. should be scaled and centered (mean = 0, sd = 1)
+#' @param  exp.names = explanatory covariate names, passed as vector of characters
+#' @param  indicator = y variable of interest (character)
+#' @param  family = GAM family distribution, takes 'gaussian' or 'Gamma'
+#' @param  base_k = number of knots for each smoother term. Default = -1, mgcv  uses generalized cross-validation
+#' @param  smoother = cubic regression spline method (cr is default)
+#' @keywords gam
+#' @export
+#' @examples
+#' gam.dev.exp
 
-## REFERENCE:
-## Simon Wood; http://r.789695.n4.nabble.com/variance-explained-by-each-term-in-a-GAM-td836513.html
-## Litzow et al. (2013) 
-## Reassessing regime shifts in the North Pacific: incremental climate change and commercial fishing are necessary for explaining decadal-scale biological variability. 
-## Global Change Biology.
 
 gam.dev.exp<-function(dataset, exp.names, indicator, family, base_k=-1, smoother='cr'){
 

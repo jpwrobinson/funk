@@ -1,14 +1,12 @@
 #' A gg theme Function
 #'
-#' This function is for publication quality ggplots
+#' This function is for publication quality ggplots. It is a copy of Sean Anderson's ggsidekick which is no longer supported, and Cameron Freshwater added argument for top, bottom, middle for multipanel functionality.
 #' @param 
 #' @keywords ggplot
 #' @export
 #' @examples
 #' theme_sleek()
 
-# This function is a copy of Sean Anderson's ggsidekick which is no longer supported; 
-# Cameron Freshwater added argument for top, bottom, middle for multipanel functionality
 
 theme_sleek <- function(base_size = 11, base_family = "", position = "standard") {
   half_line <- base_size/2
