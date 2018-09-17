@@ -32,14 +32,15 @@ mmi_tvalue<-function(dataset, exp.names, indicator, family){
 	# Build global model and check for collinearity, and print model diagnostic plots#
 #--------------------------------------------------------------------------------#
 # create formula for 
+exp.names<-paste(exp.names, collapse=' + ')
 f <- as.formula(paste(indicator, exp.names, sep="~"))
 
 ## compare full gam with full linear model
 if(family == 'Gamma'){
-M_FULL<-glm(f,   data=dataset, family=Gamma(link=log))}
+M_FULL<-glm(f,   data=dataset, family=Gamma(link=log),na.action = "na.fail")}
 
 if(family == 'gaussian'){
-M_FULL<-glm(f,   data=dataset, family='gaussian')}
+M_FULL<-glm(f,   data=dataset, family='gaussian', na.action = "na.fail")}
 
 ## check for collinearity
 print(vif(M_FULL))

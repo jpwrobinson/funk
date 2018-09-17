@@ -25,16 +25,17 @@ glm_gam_test<-function(dataset, exp.names, indicator, family){
 #--------------------------------------------------------------------------------#
   # Build global model and check for collinearity, and print model diagnostic plots#
 #--------------------------------------------------------------------------------#
-
 ## rearrange exp.names for gam notation
-t<-strsplit(exp.names, ' + ', fixed=TRUE)
-smooth.exp.names<-paste('s(', t[[1]], ')', sep='')
+t<-strsplit(exp.names, ',', fixed=TRUE)
+
+linear.exp.names<-paste(t, collapse=' + ')
+smooth.exp.names<-paste('s(', t, ')', sep='')
 smooth.exp.names<-paste(smooth.exp.names,  collapse=' + ')
 
 # create formula for GLM and GAM
-f <- as.formula(paste(indicator, exp.names, sep="~"))
+f <- as.formula(paste(indicator, linear.exp.names, sep="~"))
 f.smooth <- as.formula(paste(indicator, smooth.exp.names, sep="~"))
-print(f.smooth)
+
 # build GLM
 if(family == 'Gamma'){
 M_FULL.glm<-glm(f,   data=dataset, family=Gamma(link=log))}
@@ -69,8 +70,6 @@ if(aic.gam>aic.glm){  print(vif(M_FULL.glm)) }
 if(aic.glm>aic.gam){  M_FULL <- M_FULL.gam }
 if(aic.gam>aic.glm){  M_FULL <- M_FULL.glm }
 
-return(M_FULL)
-
 # pdf(file=paste('MMI_GLM_GAM_diagnostic_', indicator,'.pdf', sep=""))
 par(mfrow=c(2,2))
 hist(dataset[,indicator], main=paste('Hist of', indicator, sep=' '))
@@ -78,5 +77,7 @@ plot(fitted(M_FULL), dataset[,indicator], main=paste('Fitted vs. obs', indicator
 plot(resid(M_FULL), main=paste('Residuals of', indicator, sep=' '))
 hist(resid(M_FULL), main=paste('Hist of residuals of', indicator, sep=' '))
 # dev.off()
+
+return(M_FULL)
 
 }
