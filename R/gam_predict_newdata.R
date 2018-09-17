@@ -17,7 +17,7 @@
 #' gam.predict.newdata
 
 
-gam.predict.newdata<-function(dataset, newdataset, exp.names, indicator, family, base_k=-1, smoother='cr',n.param.max=3){
+gam_predict_newdata<-function(dataset, newdataset, exp.names, indicator, family, base_k=-1, smoother='cr',n.param.max=3){
 
   # library(gamm4)
   library(mgcv)

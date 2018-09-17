@@ -15,7 +15,7 @@
 
 
 
-gam.jacknife<-function(dataset, exp.names, indicator, family, base_k=-1, smoother='cr',n.param.max=3){
+gam_jacknife<-function(dataset, exp.names, indicator, family, base_k=-1, smoother='cr',n.param.max=3){
 
   library(mgcv)
 

@@ -15,7 +15,7 @@
 
 
 
-glm.avg.tvalue<-function(dataset, exp.names, indicator, family){
+mmi_tvalue<-function(dataset, exp.names, indicator, family){
 
   library(MuMIn)
 

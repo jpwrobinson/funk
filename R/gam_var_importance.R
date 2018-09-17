@@ -15,7 +15,7 @@
 #' gam.dev.exp
 
 
-gam.dev.exp<-function(dataset, exp.names, indicator, family, base_k=-1, smoother='cr'){
+gam_dev_exp<-function(dataset, exp.names, indicator, family, base_k=-1, smoother='cr'){
 
   # library(gamm4)
   library(mgcv)

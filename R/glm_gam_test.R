@@ -10,7 +10,7 @@
 #' @examples
 #' glm.gam.test
 
-glm.gam.test<-function(dataset, exp.names, indicator, family){
+glm_gam_test<-function(dataset, exp.names, indicator, family){
 
   # library(gamm4)
   library(mgcv)
