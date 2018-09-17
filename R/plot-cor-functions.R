@@ -53,7 +53,7 @@ panel.smooth2<-function (x, y, col = par("col"), bg = alpha('grey',0.5), pch = 2
 pairs2 <-  function (x, labels, panel = points, ..., lower.panel = panel.smooth2, 
             upper.panel = panel.cor, diag.panel = panel.hist, text.panel = textPanel, 
             label.pos = 0.5 + has.diag/3, cex.labels = NULL, font.labels = 1,
-            row1attop = TRUE, gap = 1, ...) 
+            row1attop = TRUE, gap = 1) 
   {
     textPanel <- function(x = 0.5, y = 0.5, txt, cex, font) text(x, 
                                                                  y, txt, cex = cex, font = font)
