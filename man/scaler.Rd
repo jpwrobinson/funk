@@ -18,7 +18,7 @@ scaler(df, ID, centered = TRUE, scaled = TRUE, ...)
 \item{family}{= GLM family distribution, takes 'gaussian' or 'Gamma'}
 }
 \description{
-function to scale numeric and categorical variables for multi-model approaches
+function to scale numeric and categorical variables for multi-model approaches. Categorical covariates must be provided as factors and will be converted to 0,1 dummy variables.
 }
 \examples{
 scaler

@@ -1,6 +1,6 @@
 #' Scaling and centering explanatory covariates
 #'
-#' function to scale numeric and categorical variables for multi-model approaches
+#' function to scale numeric and categorical variables for multi-model approaches. Categorical covariates must be provided as factors and will be converted to 0,1 dummy variables.
 #' @param df = dataset containing all response, explanatory, and grouping factors 
 #' @param ID = names of grouping variables that should not be scaled; provide as c("Var1", "Var2")
 #' @param centered = should the function center the mean at 0? (defaults to TRUE)
@@ -11,7 +11,6 @@
 #' @examples
 #' scaler
 
-## Function definitions
 scaler<-function(df, ID, centered=TRUE, scaled=TRUE,...){
 
 ## Function parameters
@@ -34,63 +33,80 @@ scaler<-function(df, ID, centered=TRUE, scaled=TRUE,...){
 	
 	numerics<-sapply(df, is.numeric)
 	dat_cont<-df[, numerics]
-	dat_cont<-dat_cont[,!colnames(dat_cont)%in%ID]
 	scaled_cont<-scale(dat_cont, center=TRUE)
 
 #--------------------scale the categorical variables-----------------#
-	cats<-df[,!numerics]
-	cats<-cats[,!colnames(cats)%in%ID]
-	cats<-as.data.frame(cats)
+	cats<-df[,!numerics] ## drop numerics
+	cats<-cats[,!colnames(cats)%in%ID] ## drop ID variables
+	cat.names<-colnames(cats)
+	cats<-as.data.frame(cats) ## convert to dataframe
 	
-	## if you only have 1 categorical variable, do this...
-	if(dim(cats)[2]==1){
+	# ## if you only have 1 categorical variable, do this...
+	# if(dim(cats)[2]==1){
 
-		i.levels<-levels(cats[,1])
-		cats[, 2]<-0
-		cats[, 2][cats[,1]==i.levels[2]]<-1
-		colnames(cats)[2]<-paste(i.levels[1],i.levels[2],"dummy", sep=".")
+	# 	i.levels<-levels(cats[,1])
+	# 	cats[, 2]<-0
+	# 	cats[, 2][cats[,1]==i.levels[2]]<-1
+	# 	colnames(cats)[2]<-paste(i.levels[1],i.levels[2],"dummy", sep=".")
 
-	} else if (dim(cats)[2]>1){
+	# } else if (dim(cats)[2]>1){
+	nd <- as.data.frame(matrix(0, nrow=nrow(cats), ncol=1))
+	nvars <- dim(cats)[2]
 
-		## if you have more than 1 categorical variable, do this...
-		for(i in 1:dim(cats)[2]){
-		
-		nvars <- dim(cats)[2]
+	i = 0; counter = 0
+	level.max<-numeric()
+	for(a in 1:nvars){ level.max<-rbind(level.max, uniques(cats[,a])) }
+	level.max<-sum(level.max)
+
+		repeat {
+
+		i <- i + 1
+		counter <- counter + 1
+
 		i.levels<-levels(cats[,i])
-		counter<-1
-		
-		cats[, 1+nvars]<-0
-		cats[, 1+nvars][cats[,i]==i.levels[2]]<-1
-		colnames(cats)[1+nvars]<-paste(i.levels[1],i.levels[2],"dummy", sep=".")
+		nd[, counter]<-cats[,i]
+		colnames(nd)[counter]<-cat.names[i]
 
+		# if the first categorical variable has 2 levels, do this...
+			if(length(i.levels)==2){
+			
+			nd[, 1+counter]<-0
+			nd[, 1+counter][nd[,counter]==i.levels[2]]<-1
+			colnames(nd)[1+counter]<-paste(i.levels[1],i.levels[2],"dummy", sep=".")
+			} else {
+			
 		## for variables with more than 2 levels we need to add more than 2 dummy variables
-		if(length(i.levels)>2){
-		
-		for(j in 3:length(i.levels)){
-		cats[, counter+nvars+(j-2)]<-0
-		cats[, counter+nvars+(j-2)][cats[,i]==i.levels[j]]<-1
-		colnames(cats)[counter+nvars+(j-2)]<-paste(i.levels[1],i.levels[j],"dummy", sep=".")
-		
-		}}}
-	}	
+				if(length(i.levels)>2){
 
+				for(j in 2:length(i.levels)){
+					nd[, 1+ counter + (j-2)]<-0
+					nd[, 1+ counter + (j-2)][cats[,i]==i.levels[j]]<-1
+					colnames(nd)[1 + counter + (j-2)]<-paste(i.levels[1],i.levels[j],"dummy", sep=".")
+					
+				}
+			}
+		}
+		counter<-dim(nd)[2]
+		if(counter == level.max){break}
+
+	}	
 
 
 #--------------------center categorical dummy variables--------------------
 
-	if(dim(cats)[2]==2){
-				cats[,2]<-cats[,2] - mean(cats[,2])} else if(dim(cats)[2]>2){
+	# if(dim(cats)[2]==2){
+	# 			cats[,2]<-cats[,2] - mean(cats[,2])} else if(dim(cats)[2]>2){
 
-		## remove unscaled categorical
-		cats.num<-sapply(cats, is.numeric)
-		cats<-cats[,cats.num]
-		## center each scaled categorical
-		for(i in 1:dim(cats)[2]){
-			cats[,i]<-cats[,i] - mean(cats[,i])
-		}}
+	# 	## remove unscaled categorical
+	# 	cats.num<-sapply(cats, is.numeric)
+	# 	cats<-cats[,cats.num]
+	# 	## center each scaled categorical
+	# 	for(i in 1:dim(cats)[2]){
+	# 		cats[,i]<-cats[,i] - mean(cats[,i])
+	# 	}}
 
 #--------------------bind numeric and categorical together with ID.vars-----------------#
-	scaled.df<-cbind(ID.vars, scaled_cont, cats)
+	scaled.df<-cbind(ID.vars, scaled_cont, nd)
 	return(scaled.df)
 
 	## END
