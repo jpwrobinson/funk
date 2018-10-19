@@ -11,13 +11,14 @@
 #' @examples
 #' scaler
 
-scaler<-function(df, ID, centered=TRUE, scaled=TRUE,...){
+scaler<-function(df, ID, centered=TRUE, scaled=TRUE, cats = TRUE, ...){
 
 ## Function parameters
 #	df = dataframe containing all response, explanatory, and grouping factors 
 #	ID = names of grouping variables that should not be scaled; provide as c("Var1", "Var2")
 #	centered = should the function center the mean at 0?
 #	scaled = should the function scale each variable by its standard deviation?
+#   cats = do categorical variables exist, and need converting to dummy?
 
 ###--------------------Begin function--------------------###
 
@@ -36,6 +37,8 @@ scaler<-function(df, ID, centered=TRUE, scaled=TRUE,...){
 	scaled_cont<-scale(dat_cont, center=TRUE)
 
 #--------------------scale the categorical variables-----------------#
+	if(cats == TRUE){
+
 	cats<-df[,!numerics] ## drop numerics
 	cats<-cats[,!colnames(cats)%in%ID] ## drop ID variables
 	cat.names<-colnames(cats)
@@ -92,22 +95,15 @@ scaler<-function(df, ID, centered=TRUE, scaled=TRUE,...){
 	}	
 
 
-#--------------------center categorical dummy variables--------------------
-
-	# if(dim(cats)[2]==2){
-	# 			cats[,2]<-cats[,2] - mean(cats[,2])} else if(dim(cats)[2]>2){
-
-	# 	## remove unscaled categorical
-	# 	cats.num<-sapply(cats, is.numeric)
-	# 	cats<-cats[,cats.num]
-	# 	## center each scaled categorical
-	# 	for(i in 1:dim(cats)[2]){
-	# 		cats[,i]<-cats[,i] - mean(cats[,i])
-	# 	}}
-
 #--------------------bind numeric and categorical together with ID.vars-----------------#
 	scaled.df<-cbind(ID.vars, scaled_cont, nd)
 	return(scaled.df)
+}
+
+else {
+	scaled.df<-cbind(ID.vars, scaled_cont)
+	return(scaled.df)
+}
 
 	## END
 	}
