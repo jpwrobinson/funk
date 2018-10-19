@@ -4,7 +4,7 @@
 \alias{scaler}
 \title{Scaling and centering explanatory covariates}
 \usage{
-scaler(df, ID, centered = TRUE, scaled = TRUE, ...)
+scaler(df, ID, centered = TRUE, scaled = TRUE, cats = TRUE, ...)
 }
 \arguments{
 \item{df}{= dataset containing all response, explanatory, and grouping factors}
