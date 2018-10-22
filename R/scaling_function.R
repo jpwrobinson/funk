@@ -34,6 +34,7 @@ scaler<-function(df, ID, centered=TRUE, scaled=TRUE, cats = TRUE, ...){
 	
 	numerics<-sapply(df, is.numeric)
 	dat_cont<-df[, numerics]
+	dat_cont<-dat_cont[,!colnames(dat_cont)%in%ID] ## drop any numeric ID variables
 	scaled_cont<-scale(dat_cont, center=TRUE)
 
 #--------------------scale the categorical variables-----------------#
@@ -41,8 +42,9 @@ scaler<-function(df, ID, centered=TRUE, scaled=TRUE, cats = TRUE, ...){
 
 	cats<-df[,!numerics] ## drop numerics
 	cats<-cats[,!colnames(cats)%in%ID] ## drop ID variables
-	cat.names<-colnames(cats)
 	cats<-as.data.frame(cats) ## convert to dataframe
+	cat.names<-colnames(df[,!numerics])
+	cat.names<-cat.names[!cat.names %in% ID]
 	
 	# ## if you only have 1 categorical variable, do this...
 	# if(dim(cats)[2]==1){
@@ -53,22 +55,25 @@ scaler<-function(df, ID, centered=TRUE, scaled=TRUE, cats = TRUE, ...){
 	# 	colnames(cats)[2]<-paste(i.levels[1],i.levels[2],"dummy", sep=".")
 
 	# } else if (dim(cats)[2]>1){
-	nd <- as.data.frame(matrix(0, nrow=nrow(cats), ncol=1))
+	
 	nvars <- dim(cats)[2]
 
-	i = 0; counter = 0
-	level.max<-numeric()
-	for(a in 1:nvars){ level.max<-rbind(level.max, uniques(cats[,a])) }
-	level.max<-sum(level.max)
+
+	scaled_cat <- as.data.frame(matrix(0, nrow=nrow(cats), ncol=1))
+
+	for(a in 1:nvars){ 
+
+		nd <- as.data.frame(matrix(0, nrow=nrow(cats), ncol=1))
+		counter = 0
+		level.max<-uniques(cats[,a])
 
 		repeat {
 
-		i <- i + 1
 		counter <- counter + 1
 
-		i.levels<-levels(cats[,i])
-		nd[, counter]<-cats[,i]
-		colnames(nd)[counter]<-cat.names[i]
+		i.levels<-levels(cats[,a])
+		nd[, counter]<-cats[,a]
+		colnames(nd)[counter]<-cat.names[a]
 
 		# if the first categorical variable has 2 levels, do this...
 			if(length(i.levels)==2){
@@ -83,7 +88,7 @@ scaler<-function(df, ID, centered=TRUE, scaled=TRUE, cats = TRUE, ...){
 
 				for(j in 2:length(i.levels)){
 					nd[, 1+ counter + (j-2)]<-0
-					nd[, 1+ counter + (j-2)][cats[,i]==i.levels[j]]<-1
+					nd[, 1+ counter + (j-2)][cats[,a]==i.levels[j]]<-1
 					colnames(nd)[1 + counter + (j-2)]<-paste(i.levels[1],i.levels[j],"dummy", sep=".")
 					
 				}
@@ -92,11 +97,17 @@ scaler<-function(df, ID, centered=TRUE, scaled=TRUE, cats = TRUE, ...){
 		counter<-dim(nd)[2]
 		if(counter == level.max){break}
 
-	}	
+	}
+
+	scaled_cat<-cbind(scaled_cat, nd)
+
+	}
+
+
 
 
 #--------------------bind numeric and categorical together with ID.vars-----------------#
-	scaled.df<-cbind(ID.vars, scaled_cont, nd)
+	scaled.df<-cbind(ID.vars, scaled_cont, scaled_cat[,-1])
 	return(scaled.df)
 }
 
