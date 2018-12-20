@@ -15,13 +15,16 @@
 
 
 
-mmi_tvalue<-function(dataset, exp.names, indicator, family){
+mmi_tvalue<-function(M_FULL, dataset, exp.names, ranef, indicator, family){
 
   library(MuMIn)
+  library(piecewiseSEM)
+  library(car)
 
   # Arguments:
   # dataset = dataset containing y and all x covariates. should be scaled and centered (mean = 0, sd = 1)
   # exp.names = explanatory covariate names, passed as vector of characters
+  # ranef = random effects, passed as vector of characters
   # indicator = y variable of interest (character)
   # family = GLM family distribution, takes 'gaussian' or 'Gamma'
 
@@ -31,16 +34,6 @@ mmi_tvalue<-function(dataset, exp.names, indicator, family){
 #--------------------------------------------------------------------------------#
 	# Build global model and check for collinearity, and print model diagnostic plots#
 #--------------------------------------------------------------------------------#
-# create formula for 
-exp.names<-paste(exp.names, collapse=' + ')
-f <- as.formula(paste(indicator, exp.names, sep="~"))
-
-## compare full gam with full linear model
-if(family == 'Gamma'){
-M_FULL<-glm(f,   data=dataset, family=Gamma(link=log),na.action = "na.fail")}
-
-if(family == 'gaussian'){
-M_FULL<-glm(f,   data=dataset, family='gaussian', na.action = "na.fail")}
 
 ## check for collinearity
 print(vif(M_FULL))
@@ -66,7 +59,7 @@ top.models<-get.models(M_FULL_SET, delta<7)
 var.imp <- as.data.frame(matrix(NA, nrow = (ncol(M_FULL_SET) - 6), ncol = 4))
 colnames(var.imp) <- c("Var", "RI.t.abs", "RI.t.ratio",  "var.t")
 
-#Loop through all the variables in the model
+# Loop through all the variables in the model
 for (i in 1:(ncol(M_FULL_SET) - 6)){
   var.temp <- colnames(M_FULL_SET)[i+1]
   var.imp[i,"Var"] <- var.temp
@@ -116,11 +109,12 @@ for (i in 1:(ncol(M_FULL_SET) - 6)){
 top<-get.models(M_FULL_SET, subset=delta<7)
 tt<-data.frame(subset(M_FULL_SET, delta<7))	
 models<-rownames(tt)
-r2<-data.frame(ncol=1, models)
+r2<-data.frame(models)
 
 for (i in 1:length(top)){
   # pseudo-R2: 1 - residualdeviance/nulldeviance; from Extending the linear model in R (Faraway)
-  r2$r2[i]<-1-top[[models[i]]]$deviance/top[[models[i]]]$null.deviance
+  r2$r2.marg[i]<-piecewiseSEM::rsquared(top[[models[i]]])[1,5]
+  r2$r2.cond[i]<-piecewiseSEM::rsquared(top[[models[i]]])[1,6]
   }
 
 #--------------------------------------------------------------------------------#
@@ -147,6 +141,12 @@ for (y in 1:(nrow(var.imp))){
     #values and everything else is held at its mean
     newdata <- data.frame(matrix(0, nrow=100, ncol=length(var.imp$Var)))
     colnames(newdata)<-var.imp$Var
+
+    ## add first level of ran effects - these get cancelled
+    ran.cancel<-data.frame(unique(dataset[,ranef[1]])[1], unique(dataset[,ranef[1]])[1])
+    colnames(ran.cancel)<-ranef
+    newdata<- cbind(newdata, ran.cancel)
+
   	newdata$test.var = seq(from = min(dataset[,var.temp]), to = max(dataset[,var.temp]), length.out = 100)
 
     #Find which is the given variable and update the column name
@@ -159,7 +159,7 @@ for (y in 1:(nrow(var.imp))){
     var.wt.pred<-matrix(NA, nrow=1, ncol=nrow(newdata))
     for (j in 1:len){
       temp.mod <- get.models(M_FULL_SET, subset = j)
-      pred <- predict(temp.mod[[1]], newdata = newdata, type='response') # Get the raw prediction for the given model
+      pred <- predict(temp.mod[[1]], newdata = newdata, type='response', re.form=NA) # Get the raw prediction for the given model
       raw.pred[j,] <- pred
       pred.wt.temp <- pred* top.weights[j] # Weight the prediction by the corresponding model weight
       wt.pred[j,] <- pred.wt.temp
