@@ -15,7 +15,7 @@
 
 
 
-mmi_tvalue<-function(M_FULL, dataset, exp.names, ranef, indicator, family){
+mmi_tvalue<-function(M_FULL, dataset, exp.names, ranef, indicator, family, t.subset=FALSE){
 
   library(MuMIn)
   library(piecewiseSEM)
@@ -36,6 +36,7 @@ mmi_tvalue<-function(M_FULL, dataset, exp.names, ranef, indicator, family){
 #--------------------------------------------------------------------------------#
 
 ## check for collinearity
+print('Checking collinearity. VIF values are:')
 print(vif(M_FULL))
 
 par(mfrow=c(2,2))
@@ -50,8 +51,11 @@ hist(resid(M_FULL), main=paste('Hist of residuals of', indicator, sep=' '))
 
 M_FULL_SET<-dredge(M_FULL, rank="AICc")
 print(head(M_FULL_SET))
+
+## if variance estimates are problematic (i.e. big effects scoop up variation in models with low numbers of covariates), then
 ## extract models with AIC < 7
-top.models<-get.models(M_FULL_SET, delta<7)
+if(t.subset == TRUE){
+  M_FULL_SET<-subset(M_FULL_SET, delta<7)}
 
 #--------------------------------------------------------------------------------#
 # Model average absolute value of t-statistics for measure of variable importance ACROSS ALL MODELS #
@@ -106,15 +110,16 @@ for (i in 1:(ncol(M_FULL_SET) - 6)){
 #--------------------------------------------------------------------------------#
 				# Get R-squareds for each top model (< 7 AIC) #
 #--------------------------------------------------------------------------------#
-top<-get.models(M_FULL_SET, subset=delta<7)
+top.models<-get.models(M_FULL_SET, subset=delta<7)
+
 tt<-data.frame(subset(M_FULL_SET, delta<7))	
 models<-rownames(tt)
 r2<-data.frame(models)
 
-for (i in 1:length(top)){
+for (i in 1:length(top.models)){
   # pseudo-R2: 1 - residualdeviance/nulldeviance; from Extending the linear model in R (Faraway)
-  r2$r2.marg[i]<-piecewiseSEM::rsquared(top[[models[i]]])[1,5]
-  r2$r2.cond[i]<-piecewiseSEM::rsquared(top[[models[i]]])[1,6]
+  r2$r2.marg[i]<-piecewiseSEM::rsquared(top.models[[models[i]]])[1,5]
+  r2$r2.cond[i]<-piecewiseSEM::rsquared(top.models[[models[i]]])[1,6]
   }
 
 #--------------------------------------------------------------------------------#

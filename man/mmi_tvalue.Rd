@@ -4,7 +4,8 @@
 \alias{mmi_tvalue}
 \title{Multimodel averaging with t-values}
 \usage{
-mmi_tvalue(M_FULL, dataset, exp.names, ranef, indicator, family)
+mmi_tvalue(M_FULL, dataset, exp.names, ranef, indicator, family,
+  t.subset = FALSE)
 }
 \arguments{
 \item{dataset}{= dataset containing y and all x covariates. should be scaled and centered (mean = 0, sd = 1)}
