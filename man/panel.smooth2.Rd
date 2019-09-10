@@ -4,8 +4,8 @@
 \alias{panel.smooth2}
 \title{Pairs plots for correlations}
 \usage{
-panel.smooth2(x, y, col = par("col"), bg = alpha("grey", 0.5), pch = 21,
-  cex = 1, span = 2/3, iter = 3, ...)
+panel.smooth2(x, y, col = par("col"), bg = alpha("grey", 0.5),
+  pch = 21, cex = 1, span = 2/3, iter = 3, ...)
 }
 \arguments{
 \item{x}{is x covariate}
