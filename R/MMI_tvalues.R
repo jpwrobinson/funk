@@ -193,6 +193,7 @@ mmi<-list(var.imp, r2, preds, preds.var)
 
 # return list of data frames renamed with indicator of interest
 return(assign(paste('mmi', indicator, sep="."), mmi))
+system("say YER DONE YA BISH")
 }
 
 
