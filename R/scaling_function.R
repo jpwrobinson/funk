@@ -34,7 +34,7 @@ scaler<-function(df, ID, centered=TRUE, scaled=TRUE, cats = TRUE, ...){
 	
 	numerics<-sapply(df, is.numeric)
 	dat_cont<-df[, numerics]
-	# dat_cont<-dat_cont[,!colnames(dat_cont)%in%ID, drop=F] ## drop any numeric ID variables
+	dat_cont<-dat_cont[,!colnames(dat_cont)%in%ID, drop=F] ## drop any numeric ID variables
 	scaled_cont<-scale(dat_cont, center=TRUE)
 	colnames(scaled_cont)<-colnames(dat_cont)
 
