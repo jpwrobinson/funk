@@ -4,8 +4,14 @@
 \alias{gam_dev_exp}
 \title{Variable importance for GAMs}
 \usage{
-gam_dev_exp(dataset, exp.names, indicator, family, base_k = -1,
-  smoother = "cr")
+gam_dev_exp(
+  dataset,
+  exp.names,
+  indicator,
+  family,
+  base_k = -1,
+  smoother = "cr"
+)
 }
 \arguments{
 \item{dataset}{is the dataset containing y and all x covariates. should be scaled and centered (mean = 0, sd = 1)}

@@ -4,10 +4,21 @@
 \alias{pairs2}
 \title{Pairs plots for correlations}
 \usage{
-pairs2(x, labels, panel = points, ..., lower.panel = panel.smooth2,
-  upper.panel = panel.cor, diag.panel = panel.hist,
-  text.panel = textPanel, label.pos = 0.5 + has.diag/3,
-  cex.labels = NULL, font.labels = 2, row1attop = TRUE, gap = 1)
+pairs2(
+  x,
+  labels,
+  panel = points,
+  ...,
+  lower.panel = panel.smooth2,
+  upper.panel = panel.cor,
+  diag.panel = panel.hist,
+  text.panel = textPanel,
+  label.pos = 0.5 + has.diag/3,
+  cex.labels = NULL,
+  font.labels = 2,
+  row1attop = TRUE,
+  gap = 1
+)
 }
 \arguments{
 \item{x}{is dataset containing y and all x covariates.}

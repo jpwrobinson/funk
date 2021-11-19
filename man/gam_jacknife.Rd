@@ -4,8 +4,15 @@
 \alias{gam_jacknife}
 \title{Fit jacknife GAM analysis.}
 \usage{
-gam_jacknife(dataset, exp.names, indicator, family, base_k = -1,
-  smoother = "cr", n.param.max = 3)
+gam_jacknife(
+  dataset,
+  exp.names,
+  indicator,
+  family,
+  base_k = -1,
+  smoother = "cr",
+  n.param.max = 3
+)
 }
 \arguments{
 \item{dataset}{is a data frame of response and explanatory covariates}

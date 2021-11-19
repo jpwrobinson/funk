@@ -4,8 +4,16 @@
 \alias{gam_predict_newdata}
 \title{Testing predictive power for GAMs}
 \usage{
-gam_predict_newdata(dataset, newdataset, exp.names, indicator, family,
-  base_k = -1, smoother = "cr", n.param.max = 3)
+gam_predict_newdata(
+  dataset,
+  newdataset,
+  exp.names,
+  indicator,
+  family,
+  base_k = -1,
+  smoother = "cr",
+  n.param.max = 3
+)
 }
 \arguments{
 \item{dataset}{= dataset containing y and all x covariates. should be scaled and centered (mean = 0, sd = 1)}
