@@ -6,7 +6,11 @@ install_github('jpwrobinson/funk')
 library(funk)
 ```
 
-**Documentation needs improving and will be done soon!**
+To update this package:
+
+```roxygen2::roxygenise()```
+
+**Documentation is shit**.
 
 Functions included are:
 
@@ -32,5 +36,4 @@ Functions included are:
 * ```glm_gam_test``` compares model fits of GAM and GLM (by AIC)
 * ```mmi_tvalue``` evaluates variable importance by multimodel inference, following [Cade (2015)](https://esajournals.onlinelibrary.wiley.com/doi/10.1890/14-1639.1)
 * ```vif_mer``` estimates variance inflation factors for lme4 models (thanks [Austin Frank](https://github.com/aufrank/R-hacks/blob/master/mer-utils.R))
-
 
