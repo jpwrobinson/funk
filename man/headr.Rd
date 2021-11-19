@@ -7,8 +7,8 @@
 headr(x)
 }
 \description{
-Function estimates standard error (sd / sqrt(n))
+Short cut to printing full head on a tibble
 }
 \examples{
-uniques
+headr(iris)
 }
