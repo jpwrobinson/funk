@@ -12,7 +12,7 @@
 #' @keywords multimodel
 #' @export
 #' @examples
-#' gam.predict
+#' gam_predict
 
 
 gam_predict<-function(dataset, exp.names, indicator, family, base_k=-1, smoother='cr',n.param.max=3){

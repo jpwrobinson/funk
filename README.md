@@ -6,9 +6,7 @@ install_github('jpwrobinson/funk')
 library(funk)
 ```
 
-To update this package:
-
-```roxygen2::roxygenise()```
+To update this package run 'Check' in RStudio.
 
 **Documentation is shit**.
 

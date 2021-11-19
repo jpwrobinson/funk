@@ -33,6 +33,6 @@ gam_jacknife(
 This function runs a drop-one jacknife to estimate relative variable importance.
 }
 \examples{
-gam.jacknife
+gam_jacknife
 }
 \keyword{gam}

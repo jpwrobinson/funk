@@ -11,7 +11,7 @@
 #' @keywords gam
 #' @export
 #' @examples
-#' gam.jacknife
+#' gam_jacknife
 
 
 

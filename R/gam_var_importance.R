@@ -12,7 +12,7 @@
 #' @keywords gam
 #' @export
 #' @examples
-#' gam.dev.exp
+#' gam_dev_exp
 
 
 gam_dev_exp<-function(dataset, exp.names, indicator, family, base_k=-1, smoother='cr'){

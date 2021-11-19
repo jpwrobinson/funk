@@ -11,7 +11,7 @@
 #' @keywords multimodel
 #' @export
 #' @examples
-#' glm.avg.tvalue
+#' mmi_tvalue
 
 
 

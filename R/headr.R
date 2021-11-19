@@ -7,4 +7,7 @@
 #' @examples
 #' headr(iris)
 
-headr<-function(x) x %>% head() %>% data.frame()
+headr<-function(x){
+	library(tidyverse)
+ 	x %>% head() %>% data.frame()
+ }

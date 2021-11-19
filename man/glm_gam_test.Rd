@@ -19,7 +19,7 @@ glm_gam_test(dataset, exp.names, indicator, family)
 Function builds GLM or GAM, compares AIC and outputs the winner.
 }
 \examples{
-glm.gam.test
+glm_gam_test
 }
 \keyword{comparison}
 \keyword{model}

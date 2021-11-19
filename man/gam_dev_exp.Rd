@@ -32,6 +32,6 @@ Simon Wood; http://r.789695.n4.nabble.com/variance-explained-by-each-term-in-a-G
 Litzow et al. (2013) Reassessing regime shifts in the North Pacific: incremental climate change and commercial fishing are necessary for explaining decadal-scale biological variability. Global Change Biology.
 }
 \examples{
-gam.dev.exp
+gam_dev_exp
 }
 \keyword{gam}

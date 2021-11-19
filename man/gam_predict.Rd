@@ -34,6 +34,6 @@ Function builds GAM and dredges saturated models, fixed to maximum of 3 covariat
 1. the top-ranked model (AICc > 2 lower than candidate models) OR 2. across a top-ranking model set (AICc < 7 of top-ranked model)
 }
 \examples{
-gam.predict
+gam_predict
 }
 \keyword{multimodel}

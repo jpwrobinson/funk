@@ -14,7 +14,7 @@
 #' @keywords multimodel, GAM, prediction
 #' @export
 #' @examples
-#' gam.predict.newdata
+#' gam_predict_newdata
 
 
 gam_predict_newdata<-function(dataset, newdataset, exp.names, indicator, family, base_k=-1, smoother='cr',n.param.max=3){

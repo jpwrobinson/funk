@@ -8,7 +8,7 @@
 #' @keywords model comparison
 #' @export
 #' @examples
-#' glm.gam.test
+#' glm_gam_test
 
 glm_gam_test<-function(dataset, exp.names, indicator, family){
 

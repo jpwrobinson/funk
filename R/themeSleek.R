@@ -9,6 +9,7 @@
 
 
 theme_sleek <- function(base_size = 11, base_family = "", position = "standard") {
+  library(ggplot2)
   half_line <- base_size/2
   q <- theme_light(base_size = 11, base_family = "") +
     theme(

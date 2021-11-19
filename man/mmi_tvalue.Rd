@@ -30,6 +30,6 @@ Function builds GLM, runs multi-model inference to produce:
 3. Predicted y across each covariate, weighted by AIC for all models < 7 AICc of top model (and variance in predictions)
 }
 \examples{
-glm.avg.tvalue
+mmi_tvalue
 }
 \keyword{multimodel}
